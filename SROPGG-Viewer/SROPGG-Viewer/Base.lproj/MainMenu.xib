@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="6233" systemVersion="14A329f" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6233"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="7702"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
@@ -11,8 +11,11 @@
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
-        <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModuleProvider="">
+        <customObject id="Voe-Tx-rLC" customClass="AppDelegate">
             <connections>
+                <outlet property="fileBrowserWindow" destination="EiT-Mj-1SZ" id="XHU-Ec-BF6"/>
+                <outlet property="fileLocationLabel" destination="hh0-jR-u6P" id="hi1-wt-McD"/>
+                <outlet property="openFileBtn" destination="7uc-3S-IuF" id="wen-ht-3wc"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="gIp-Ho-8D9"/>
             </connections>
         </customObject>
@@ -670,11 +673,46 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="335" y="390" width="480" height="360"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1177"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1057"/>
             <view key="contentView" id="EiT-Mj-1SZ">
                 <rect key="frame" x="0.0" y="0.0" width="480" height="360"/>
                 <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="hh0-jR-u6P">
+                        <rect key="frame" x="18" y="319" width="305" height="22"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="22" id="8gf-Fw-cYH"/>
+                        </constraints>
+                        <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="No file currently selected...." id="JM3-OC-4gV">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="7uc-3S-IuF">
+                        <rect key="frame" x="344" y="317" width="116" height="25"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="116" id="13T-nQ-Jb3"/>
+                            <constraint firstAttribute="height" constant="22" id="ba7-dr-XEl"/>
+                        </constraints>
+                        <buttonCell key="cell" type="roundTextured" title="Open File..." bezelStyle="texturedRounded" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ZsQ-ya-avF">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="openFileBroser:" target="Voe-Tx-rLC" id="Jz7-2Z-vUj"/>
+                        </connections>
+                    </button>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="hh0-jR-u6P" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" id="61Q-L2-IBe"/>
+                    <constraint firstItem="7uc-3S-IuF" firstAttribute="leading" secondItem="hh0-jR-u6P" secondAttribute="trailing" constant="23" id="AQD-Yu-sKW"/>
+                    <constraint firstAttribute="trailing" secondItem="7uc-3S-IuF" secondAttribute="trailing" constant="20" id="W1d-XY-WHb"/>
+                    <constraint firstItem="hh0-jR-u6P" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="19" id="YIx-W3-6vN"/>
+                    <constraint firstItem="7uc-3S-IuF" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="19" id="sfd-ni-hmL"/>
+                </constraints>
             </view>
+            <point key="canvasLocation" x="319" y="302"/>
         </window>
     </objects>
 </document>
