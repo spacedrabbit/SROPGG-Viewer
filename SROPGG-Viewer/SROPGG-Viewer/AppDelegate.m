@@ -79,11 +79,13 @@ static NSString * const OP_GG_ARG = @"spectator 20000.f.spectator.op.gg:80";
 - (void)parseOPGGDataFromFiles:(NSArray *)fileURLs{
     
     for (NSURL *fileURL in fileURLs) {
+        
         NSString *fileName = fileURL.lastPathComponent;
-        NSDictionary *matchInfo = [self matchReplayInfoFromFile:fileURL];
+        [self matchReplayInfoFromFile:fileURL completion:^(NSDictionary *matchInfo) {
+            
+        }];
         
     }
-    
 }
 
 #pragma mark - Running LoL Client with OP.GG files
@@ -94,14 +96,15 @@ static NSString * const OP_GG_ARG = @"spectator 20000.f.spectator.op.gg:80";
 
     NSString *commandLauncherPath = [NSString stringWithFormat:@"%@%@%@", LAUNCHER_PATH, self.launcherVersion, LAUNCHER_PATH_END];
     NSString *commandClientPath = [NSString stringWithFormat:@"%@%@%@", CLIENT_PATH, self.clientVersion, CLIENT_PATH_END];
-    
-    
+    // TODO: Implement the actual command call
     
 }
 
-- (NSDictionary *)matchReplayInfoFromFile:(NSURL *)fileURL{
+- (void)matchReplayInfoFromFile:(NSURL *)fileURL completion:(void(^)(NSDictionary * matchInfo))completion {
     
     NSString *fileContents = [NSString stringWithContentsOfURL:fileURL encoding:NSUTF8StringEncoding error:nil];
+    __block NSMutableDictionary *matchInfo = [[NSMutableDictionary alloc] init];
+    
     [fileContents enumerateLinesUsingBlock:^(NSString *line, BOOL *stop) {
         
         NSString *whiteSpaceStripped = [line stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
@@ -109,17 +112,19 @@ static NSString * const OP_GG_ARG = @"spectator 20000.f.spectator.op.gg:80";
         // this effectively finds the last line in the file
         if([whiteSpaceStripped hasPrefix:COMMAND_LAUNCH_ARG]){
             NSArray *components = [whiteSpaceStripped componentsSeparatedByString:@" \""];
-            // spectator 20000.f.spectator.op.gg:80 D/xe0rQDLwXEsYsRbSiq0jHyM4gCxy3o 1827637831 NA1"
+            
+            [matchInfo setValue:[self uniqueOPGGKeyFromLine:components.lastObject] forKey:@"uniqueKey"];
+            [matchInfo setValue:[self summonerIDFromLine:components.lastObject] forKey:@"summonerID"];
+            [matchInfo setValue:[self regionInformationFromLine:components.lastObject] forKey:@"region"];
         }
         
     }];
-
     
-    return nil;
 }
 
+// TODO: Write out these methods to return appropriate strings
 - (NSString *)uniqueOPGGKeyFromLine:(NSString *)line {
-    
+    // line = spectator 20000.f.spectator.op.gg:80 D/xe0rQDLwXEsYsRbSiq0jHyM4gCxy3o 1827637831 NA1"
     
     return nil;
 }
