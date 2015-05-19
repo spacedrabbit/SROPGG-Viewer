@@ -1,0 +1,416 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1420166F1B0AC4B50088D441 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1420166E1B0AC4B50088D441 /* AppDelegate.m */; };
+		142016711B0AC4B50088D441 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 142016701B0AC4B50088D441 /* main.m */; };
+		142016731B0AC4B50088D441 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 142016721B0AC4B50088D441 /* Images.xcassets */; };
+		142016761B0AC4B50088D441 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 142016741B0AC4B50088D441 /* MainMenu.xib */; };
+		142016821B0AC4B50088D441 /* SROPGG_ViewerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 142016811B0AC4B50088D441 /* SROPGG_ViewerTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		1420167C1B0AC4B50088D441 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 142016601B0AC4B50088D441 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 142016671B0AC4B50088D441;
+			remoteInfo = "SROPGG-Viewer";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		142016681B0AC4B50088D441 /* SROPGG-Viewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SROPGG-Viewer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1420166C1B0AC4B50088D441 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1420166D1B0AC4B50088D441 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		1420166E1B0AC4B50088D441 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		142016701B0AC4B50088D441 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		142016721B0AC4B50088D441 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		142016751B0AC4B50088D441 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		1420167B1B0AC4B50088D441 /* SROPGG-ViewerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "SROPGG-ViewerTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		142016801B0AC4B50088D441 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		142016811B0AC4B50088D441 /* SROPGG_ViewerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SROPGG_ViewerTests.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		142016651B0AC4B50088D441 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		142016781B0AC4B50088D441 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1420165F1B0AC4B50088D441 = {
+			isa = PBXGroup;
+			children = (
+				1420166A1B0AC4B50088D441 /* SROPGG-Viewer */,
+				1420167E1B0AC4B50088D441 /* SROPGG-ViewerTests */,
+				142016691B0AC4B50088D441 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		142016691B0AC4B50088D441 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				142016681B0AC4B50088D441 /* SROPGG-Viewer.app */,
+				1420167B1B0AC4B50088D441 /* SROPGG-ViewerTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1420166A1B0AC4B50088D441 /* SROPGG-Viewer */ = {
+			isa = PBXGroup;
+			children = (
+				1420166D1B0AC4B50088D441 /* AppDelegate.h */,
+				1420166E1B0AC4B50088D441 /* AppDelegate.m */,
+				142016721B0AC4B50088D441 /* Images.xcassets */,
+				142016741B0AC4B50088D441 /* MainMenu.xib */,
+				1420166B1B0AC4B50088D441 /* Supporting Files */,
+			);
+			path = "SROPGG-Viewer";
+			sourceTree = "<group>";
+		};
+		1420166B1B0AC4B50088D441 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				1420166C1B0AC4B50088D441 /* Info.plist */,
+				142016701B0AC4B50088D441 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		1420167E1B0AC4B50088D441 /* SROPGG-ViewerTests */ = {
+			isa = PBXGroup;
+			children = (
+				142016811B0AC4B50088D441 /* SROPGG_ViewerTests.m */,
+				1420167F1B0AC4B50088D441 /* Supporting Files */,
+			);
+			path = "SROPGG-ViewerTests";
+			sourceTree = "<group>";
+		};
+		1420167F1B0AC4B50088D441 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				142016801B0AC4B50088D441 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		142016671B0AC4B50088D441 /* SROPGG-Viewer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 142016851B0AC4B50088D441 /* Build configuration list for PBXNativeTarget "SROPGG-Viewer" */;
+			buildPhases = (
+				142016641B0AC4B50088D441 /* Sources */,
+				142016651B0AC4B50088D441 /* Frameworks */,
+				142016661B0AC4B50088D441 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "SROPGG-Viewer";
+			productName = "SROPGG-Viewer";
+			productReference = 142016681B0AC4B50088D441 /* SROPGG-Viewer.app */;
+			productType = "com.apple.product-type.application";
+		};
+		1420167A1B0AC4B50088D441 /* SROPGG-ViewerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 142016881B0AC4B50088D441 /* Build configuration list for PBXNativeTarget "SROPGG-ViewerTests" */;
+			buildPhases = (
+				142016771B0AC4B50088D441 /* Sources */,
+				142016781B0AC4B50088D441 /* Frameworks */,
+				142016791B0AC4B50088D441 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1420167D1B0AC4B50088D441 /* PBXTargetDependency */,
+			);
+			name = "SROPGG-ViewerTests";
+			productName = "SROPGG-ViewerTests";
+			productReference = 1420167B1B0AC4B50088D441 /* SROPGG-ViewerTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		142016601B0AC4B50088D441 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0630;
+				ORGANIZATIONNAME = "Louis Tur";
+				TargetAttributes = {
+					142016671B0AC4B50088D441 = {
+						CreatedOnToolsVersion = 6.3.1;
+					};
+					1420167A1B0AC4B50088D441 = {
+						CreatedOnToolsVersion = 6.3.1;
+						TestTargetID = 142016671B0AC4B50088D441;
+					};
+				};
+			};
+			buildConfigurationList = 142016631B0AC4B50088D441 /* Build configuration list for PBXProject "SROPGG-Viewer" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 1420165F1B0AC4B50088D441;
+			productRefGroup = 142016691B0AC4B50088D441 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				142016671B0AC4B50088D441 /* SROPGG-Viewer */,
+				1420167A1B0AC4B50088D441 /* SROPGG-ViewerTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		142016661B0AC4B50088D441 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				142016731B0AC4B50088D441 /* Images.xcassets in Resources */,
+				142016761B0AC4B50088D441 /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		142016791B0AC4B50088D441 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		142016641B0AC4B50088D441 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				142016711B0AC4B50088D441 /* main.m in Sources */,
+				1420166F1B0AC4B50088D441 /* AppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		142016771B0AC4B50088D441 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				142016821B0AC4B50088D441 /* SROPGG_ViewerTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		1420167D1B0AC4B50088D441 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 142016671B0AC4B50088D441 /* SROPGG-Viewer */;
+			targetProxy = 1420167C1B0AC4B50088D441 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		142016741B0AC4B50088D441 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				142016751B0AC4B50088D441 /* Base */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		142016831B0AC4B50088D441 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		142016841B0AC4B50088D441 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		142016861B0AC4B50088D441 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = "SROPGG-Viewer/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		142016871B0AC4B50088D441 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = "SROPGG-Viewer/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		142016891B0AC4B50088D441 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "SROPGG-ViewerTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SROPGG-Viewer.app/Contents/MacOS/SROPGG-Viewer";
+			};
+			name = Debug;
+		};
+		1420168A1B0AC4B50088D441 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "SROPGG-ViewerTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SROPGG-Viewer.app/Contents/MacOS/SROPGG-Viewer";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		142016631B0AC4B50088D441 /* Build configuration list for PBXProject "SROPGG-Viewer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				142016831B0AC4B50088D441 /* Debug */,
+				142016841B0AC4B50088D441 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		142016851B0AC4B50088D441 /* Build configuration list for PBXNativeTarget "SROPGG-Viewer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				142016861B0AC4B50088D441 /* Debug */,
+				142016871B0AC4B50088D441 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		142016881B0AC4B50088D441 /* Build configuration list for PBXNativeTarget "SROPGG-ViewerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				142016891B0AC4B50088D441 /* Debug */,
+				1420168A1B0AC4B50088D441 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 142016601B0AC4B50088D441 /* Project object */;
+}
