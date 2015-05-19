@@ -8,12 +8,23 @@
 
 #import "AppDelegate.h"
 
+static NSString * const CLIENT_PATH = @"/Applications/League of Legends.app/Contents/LoL/RADS/projects/lol_air_client/releases/";
+static NSString * const LAUNCHER_PATH = @"/Applications/League of Legends.app/Contents/LoL/RADS/solutions/lol_game_client_sln/releases/";
+
 @interface AppDelegate ()
 
 @property (weak) IBOutlet NSWindow *window;
 @property (weak) IBOutlet NSView *fileBrowserWindow;
 @property (weak) IBOutlet NSButton *openFileBtn;
 @property (weak) IBOutlet NSTextField *fileLocationLabel;
+
+@property (strong, nonatomic) NSOpenPanel *sharedOpenPanel;
+
+@property (strong, nonatomic) NSString * clientVersion;
+@property (strong, nonatomic) NSString * launcherVersion;
+
+@property (strong, nonatomic) NSURL * clientAppURL;
+@property (strong, nonatomic) NSURL * launcherAppURL;
 
 - (IBAction)openFileBroser:(NSButton *)sender;
 
@@ -23,7 +34,18 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     
+    self.sharedOpenPanel = [NSOpenPanel openPanel];
+    self.sharedOpenPanel.delegate = self;
+    self.sharedOpenPanel.title = @"Select OP.GG file to Open";
+    self.sharedOpenPanel.allowedFileTypes = @[ @"cmd" ];
+    self.sharedOpenPanel.allowsMultipleSelection = YES;
     
+    BOOL clientAndLauncherLocated = [self locatedClientAndLauncherVersionDirectories];
+    
+    if (clientAndLauncherLocated) {
+        NSString *versionTitle = [NSString stringWithFormat:@"Client ver. %@ ---- Launcher ver. %@", self.clientVersion, self.launcherVersion];
+        self.window.title = versionTitle;
+    }
     
 }
 
@@ -33,22 +55,75 @@
 
 - (IBAction)openFileBroser:(NSButton *)sender {
     
-    NSOpenPanel *openPanel = [NSOpenPanel openPanel];
-    openPanel.delegate = self;
-    openPanel.title = @"Select OP.GG file to Open";
-    openPanel.allowedFileTypes = @[ @"cmd" ];
-    openPanel.allowsMultipleSelection = YES;
-    
-    [openPanel beginWithCompletionHandler:^(NSInteger result) {
+    [self.sharedOpenPanel beginWithCompletionHandler:^(NSInteger result) {
         
         if (result == NSFileHandlingPanelOKButton) {
-            NSArray *selectedDocument = [openPanel URLs];
+            NSArray *selectedDocuments = [self.sharedOpenPanel URLs];
+            
             
         }
         
     }];
 
 }
+
+- (BOOL) locatedClientAndLauncherVersionDirectories{
+    BOOL clientLocated = [self locateClientVersionDirectory];
+    BOOL launcherLocated = [self locateLauncherVersionDirectory];
+    
+    return clientLocated && launcherLocated;
+}
+
+- (BOOL)locateClientVersionDirectory {
+    
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    
+    NSError *fileLocationError = nil;
+    self.clientAppURL = [NSURL fileURLWithPathComponents:[CLIENT_PATH pathComponents]];
+    NSArray *clientVersions = [fileManager contentsOfDirectoryAtPath:CLIENT_PATH error:&fileLocationError];
+
+    // the iteration isn't necesary, and would introduce a bug but I leave it here because
+    // I want to use respondsToSelector:UTF8String in the future, so this is just a reminder
+    if (!fileLocationError) {
+        for (id obj in clientVersions) {
+            if ([obj respondsToSelector:@selector(UTF8String)]) {
+                self.clientVersion = (NSString *)obj;
+            }
+        }
+        return YES;
+    }
+    else{
+        NSLog(@"Error encountered locating client version directory: %@", fileLocationError);
+    }
+    
+    return NO;
+}
+
+- (BOOL)locateLauncherVersionDirectory {
+    
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    
+    NSError *fileLocationError = nil;
+    self.launcherAppURL = [NSURL fileURLWithPathComponents:[LAUNCHER_PATH pathComponents]];
+    NSArray *launcherVersions = [fileManager contentsOfDirectoryAtPath:LAUNCHER_PATH error:&fileLocationError];
+    
+    NSArray *otherLauncherVersions = [fileManager contentsOfDirectoryAtURL:self.launcherAppURL includingPropertiesForKeys:@[NSURLIsDirectoryKey, NSURLNameKey, NSURLPathKey] options:NSDirectoryEnumerationSkipsSubdirectoryDescendants error:nil];
+    
+    
+    if (!fileLocationError) {
+        for (id obj in launcherVersions) {
+            if ([obj respondsToSelector:@selector(UTF8String)]) {
+                self.launcherVersion = (NSString *)obj;
+            }
+        }
+        return YES;
+    } else {
+        NSLog(@"Error encountered locating launcher version directory: %@", fileLocationError);
+    }
+    
+    return NO;
+}
+
 
 - (void) presentSelectedDirectory:(NSURL *)directory inTextField:(NSTextField *)textField{
     
