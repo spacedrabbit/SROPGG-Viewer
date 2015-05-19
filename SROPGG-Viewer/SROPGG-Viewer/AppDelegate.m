@@ -80,16 +80,15 @@ static NSString * const LAUNCHER_PATH = @"/Applications/League of Legends.app/Co
     
     NSError *fileLocationError = nil;
     self.clientAppURL = [NSURL fileURLWithPathComponents:[CLIENT_PATH pathComponents]];
-    NSArray *clientVersions = [fileManager contentsOfDirectoryAtPath:CLIENT_PATH error:&fileLocationError];
 
-    // the iteration isn't necesary, and would introduce a bug but I leave it here because
-    // I want to use respondsToSelector:UTF8String in the future, so this is just a reminder
+    NSArray *clientVersions = [fileManager contentsOfDirectoryAtURL:self.clientAppURL
+                                         includingPropertiesForKeys:@[NSURLIsDirectoryKey, NSURLNameKey, NSURLPathKey ]
+                                                            options:NSDirectoryEnumerationSkipsSubdirectoryDescendants
+                                                              error:&fileLocationError];
+
     if (!fileLocationError) {
-        for (id obj in clientVersions) {
-            if ([obj respondsToSelector:@selector(UTF8String)]) {
-                self.clientVersion = (NSString *)obj;
-            }
-        }
+        NSURL *fileURL = [clientVersions firstObject]; // TODO: Handle Multiple objects
+        self.clientVersion = [fileURL lastPathComponent];
         return YES;
     }
     else{
@@ -105,17 +104,15 @@ static NSString * const LAUNCHER_PATH = @"/Applications/League of Legends.app/Co
     
     NSError *fileLocationError = nil;
     self.launcherAppURL = [NSURL fileURLWithPathComponents:[LAUNCHER_PATH pathComponents]];
-    NSArray *launcherVersions = [fileManager contentsOfDirectoryAtPath:LAUNCHER_PATH error:&fileLocationError];
-    
-    NSArray *otherLauncherVersions = [fileManager contentsOfDirectoryAtURL:self.launcherAppURL includingPropertiesForKeys:@[NSURLIsDirectoryKey, NSURLNameKey, NSURLPathKey] options:NSDirectoryEnumerationSkipsSubdirectoryDescendants error:nil];
-    
+
+    NSArray *launcherVersions = [fileManager contentsOfDirectoryAtURL:self.launcherAppURL
+                                           includingPropertiesForKeys:@[NSURLIsDirectoryKey, NSURLNameKey, NSURLPathKey]
+                                                              options:NSDirectoryEnumerationSkipsSubdirectoryDescendants
+                                                                error:&fileLocationError];
     
     if (!fileLocationError) {
-        for (id obj in launcherVersions) {
-            if ([obj respondsToSelector:@selector(UTF8String)]) {
-                self.launcherVersion = (NSString *)obj;
-            }
-        }
+        NSURL *fileURL = [launcherVersions firstObject]; // TODO: Handle multiple objects
+        self.launcherVersion = [fileURL lastPathComponent];
         return YES;
     } else {
         NSLog(@"Error encountered locating launcher version directory: %@", fileLocationError);
