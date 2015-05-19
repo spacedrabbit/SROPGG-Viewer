@@ -9,7 +9,14 @@
 #import "AppDelegate.h"
 
 static NSString * const CLIENT_PATH = @"/Applications/League of Legends.app/Contents/LoL/RADS/projects/lol_air_client/releases/";
+static NSString * const CLIENT_PATH_END = @"/deploy/bin/LolClient";
 static NSString * const LAUNCHER_PATH = @"/Applications/League of Legends.app/Contents/LoL/RADS/solutions/lol_game_client_sln/releases/";
+static NSString * const LAUNCHER_PATH_END  = @"/deploy/LeagueOfLegends.app/Contents/MacOS/LeagueofLegends";
+
+static NSString * const COMMAND_BRIDGE_ARG = @"8394 LoLLauncher";
+static NSString * const COMMAND_LAUNCH_ARG = @"riot_launched=true";
+
+static NSString * const OP_GG_ARG = @"spectator 20000.f.spectator.op.gg:80";
 
 @interface AppDelegate ()
 
@@ -45,6 +52,8 @@ static NSString * const LAUNCHER_PATH = @"/Applications/League of Legends.app/Co
     if (clientAndLauncherLocated) {
         NSString *versionTitle = [NSString stringWithFormat:@"Client ver. %@ ---- Launcher ver. %@", self.clientVersion, self.launcherVersion];
         self.window.title = versionTitle;
+        
+        [self launchReplayForFile:nil];
     }
     
 }
@@ -59,7 +68,7 @@ static NSString * const LAUNCHER_PATH = @"/Applications/League of Legends.app/Co
         
         if (result == NSFileHandlingPanelOKButton) {
             NSArray *selectedDocuments = [self.sharedOpenPanel URLs];
-            
+            [self parseOPGGDataFromFiles:selectedDocuments];
             
         }
         
@@ -67,7 +76,67 @@ static NSString * const LAUNCHER_PATH = @"/Applications/League of Legends.app/Co
 
 }
 
-- (BOOL) locatedClientAndLauncherVersionDirectories{
+- (void)parseOPGGDataFromFiles:(NSArray *)fileURLs{
+    
+    for (NSURL *fileURL in fileURLs) {
+        NSString *fileName = fileURL.lastPathComponent;
+        NSDictionary *matchInfo = [self matchReplayInfoFromFile:fileURL];
+        
+    }
+    
+}
+
+#pragma mark - Running LoL Client with OP.GG files
+
+- (void)launchReplayForFile:(NSURL *)filePath{
+    
+    NSFileManager *defaultManager = [NSFileManager defaultManager];
+
+    NSString *commandLauncherPath = [NSString stringWithFormat:@"%@%@%@", LAUNCHER_PATH, self.launcherVersion, LAUNCHER_PATH_END];
+    NSString *commandClientPath = [NSString stringWithFormat:@"%@%@%@", CLIENT_PATH, self.clientVersion, CLIENT_PATH_END];
+    
+    
+    
+}
+
+- (NSDictionary *)matchReplayInfoFromFile:(NSURL *)fileURL{
+    
+    NSString *fileContents = [NSString stringWithContentsOfURL:fileURL encoding:NSUTF8StringEncoding error:nil];
+    [fileContents enumerateLinesUsingBlock:^(NSString *line, BOOL *stop) {
+        
+        NSString *whiteSpaceStripped = [line stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+        
+        // this effectively finds the last line in the file
+        if([whiteSpaceStripped hasPrefix:COMMAND_LAUNCH_ARG]){
+            NSArray *components = [whiteSpaceStripped componentsSeparatedByString:@" \""];
+            // spectator 20000.f.spectator.op.gg:80 D/xe0rQDLwXEsYsRbSiq0jHyM4gCxy3o 1827637831 NA1"
+        }
+        
+    }];
+
+    
+    return nil;
+}
+
+- (NSString *)uniqueOPGGKeyFromLine:(NSString *)line {
+    
+    
+    return nil;
+}
+
+- (NSString *)summonerIDFromLine:(NSString *)line {
+    
+    return nil;
+}
+
+- (NSString *)regionInformationFromLine:(NSString *)line{
+    
+    return nil;
+}
+
+#pragma mark - Locating LoL Client Directories
+
+- (BOOL)locatedClientAndLauncherVersionDirectories{
     BOOL clientLocated = [self locateClientVersionDirectory];
     BOOL launcherLocated = [self locateLauncherVersionDirectory];
     
@@ -122,9 +191,5 @@ static NSString * const LAUNCHER_PATH = @"/Applications/League of Legends.app/Co
 }
 
 
-- (void) presentSelectedDirectory:(NSURL *)directory inTextField:(NSTextField *)textField{
-    
-    
-}
 
 @end
