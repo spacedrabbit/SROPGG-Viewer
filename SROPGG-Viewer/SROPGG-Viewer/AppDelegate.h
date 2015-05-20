@@ -10,6 +10,7 @@
 
 @interface AppDelegate : NSObject <NSApplicationDelegate, NSOpenSavePanelDelegate, NSTableViewDataSource, NSTableViewDelegate>
 
+@property (strong, nonatomic, readonly) NSMutableArray *locatedFiles;
 
 @end
 

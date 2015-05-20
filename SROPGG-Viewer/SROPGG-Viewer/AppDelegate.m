@@ -14,6 +14,7 @@ static NSString * const CLIENT_PATH = @"/Applications/League of Legends.app/Cont
 static NSString * const CLIENT_PATH_END = @"/deploy/bin/LolClient";
 static NSString * const LAUNCHER_PATH = @"/Applications/League of Legends.app/Contents/LoL/RADS/solutions/lol_game_client_sln/releases/";
 static NSString * const LAUNCHER_PATH_END  = @"/deploy/LeagueOfLegends.app/Contents/MacOS/LeagueofLegends";
+static NSString * const EXECUTABLE_COMMAND_END = @"/deploy/LeagueOfLegends.app/Contents/MacOS";
 
 // Used in forming the command from the OP.GG file
 static NSString * const COMMAND_BRIDGE_ARG = @"8394 LoLLauncher";
@@ -37,6 +38,7 @@ static NSString * const SRTableViewSummonerColumnIdentifier = @"summonerColumn";
 @property (weak) IBOutlet NSButton *openFileBtn;
 @property (weak) IBOutlet NSTextField *fileLocationLabel;
 @property (weak) IBOutlet NSTableView *fileListTableView;
+@property (weak) IBOutlet NSButton *launchReplayBtn;
 
 // NSOpenPanel
 @property (strong, nonatomic) NSOpenPanel *sharedOpenPanel;
@@ -47,11 +49,13 @@ static NSString * const SRTableViewSummonerColumnIdentifier = @"summonerColumn";
 
 @property (strong, nonatomic) NSURL * clientAppURL;
 @property (strong, nonatomic) NSURL * launcherAppURL;
+@property (strong, nonatomic) NSString * opGGCommandArgument;
 
-@property (strong, nonatomic) NSMutableArray *locatedFiles;
+@property (strong, nonatomic, readwrite) NSMutableArray *locatedFiles;
 
 // IBActions
 - (IBAction)openFileBroser:(NSButton *)sender;
+- (IBAction)launchReplayBtn:(NSButton *)sender;
 
 @end
 
@@ -59,33 +63,48 @@ static NSString * const SRTableViewSummonerColumnIdentifier = @"summonerColumn";
 
 @implementation AppDelegate
 
+@synthesize locatedFiles = _locatedFiles;
+
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     
+    self.locatedFiles = [[NSMutableArray alloc] init];
+    self.launchReplayBtn.enabled = NO;
+    
     // TODO: Have column expand to fit the text
+    [self setupTableView];
+    [self setupOpenPanel];
+    [self setupLoLDirectoriesAndBegin];
+}
+
+- (void)applicationWillTerminate:(NSNotification *)aNotification {
+    // Insert code here to tear down your application
+}
+
+#pragma mark - Setup
+
+- (void)setupTableView{
     self.fileListTableView.delegate = self;
     self.fileListTableView.dataSource = self;
     self.fileListTableView.columnAutoresizingStyle = NSTableViewFirstColumnOnlyAutoresizingStyle;
     self.fileListTableView.allowsColumnSelection = NO;
     self.fileListTableView.allowsColumnResizing = YES;
-    self.locatedFiles = [[NSMutableArray alloc] init];
-    
+}
+
+- (void)setupOpenPanel{
     self.sharedOpenPanel = [NSOpenPanel openPanel];
     self.sharedOpenPanel.delegate = self;
     self.sharedOpenPanel.title = @"Select OP.GG file to Open";
     self.sharedOpenPanel.allowedFileTypes = @[ @"cmd" ];
     self.sharedOpenPanel.allowsMultipleSelection = YES;
-    
+}
+
+- (void)setupLoLDirectoriesAndBegin{
     BOOL clientAndLauncherLocated = [self locatedClientAndLauncherVersionDirectories];
     
     if (clientAndLauncherLocated) {
         NSString *versionTitle = [NSString stringWithFormat:@"Client ver. %@ ---- Launcher ver. %@", self.clientVersion, self.launcherVersion];
         self.window.title = versionTitle;
     }
-    
-}
-
-- (void)applicationWillTerminate:(NSNotification *)aNotification {
-    // Insert code here to tear down your application
 }
 
 #pragma mark - Opening File Browser and Selecting Files
@@ -103,16 +122,30 @@ static NSString * const SRTableViewSummonerColumnIdentifier = @"summonerColumn";
 
 }
 
+- (IBAction)launchReplayBtn:(NSButton *)sender {
+    [self launchReplayForFile:nil];
+}
+
 #pragma mark - Running LoL Client with OP.GG files
-// TODO: Implement the launching of the replay
+
+// see: http://stackoverflow.com/questions/17976289/executing-shell-commands-with-nstask-objective-c-cocoa
+// and: http://stackoverflow.com/questions/412562/execute-a-terminal-command-from-a-cocoa-app
 - (void)launchReplayForFile:(NSURL *)filePath{
-    
-    NSFileManager *defaultManager = [NSFileManager defaultManager];
 
     NSString *commandLauncherPath = [NSString stringWithFormat:@"%@%@%@", LAUNCHER_PATH, self.launcherVersion, LAUNCHER_PATH_END];
     NSString *commandClientPath = [NSString stringWithFormat:@"%@%@%@", CLIENT_PATH, self.clientVersion, CLIENT_PATH_END];
-    // TODO: Implement the actual command call
     
+    NSString *pathToExecuteCommandFrom = [NSString stringWithFormat:@"%@%@%@", LAUNCHER_PATH, self.launcherVersion, EXECUTABLE_COMMAND_END];
+
+    NSTask *replayLaunchTask = [[NSTask alloc] init];
+    [replayLaunchTask setLaunchPath:@"/bin/sh"];
+    [replayLaunchTask setCurrentDirectoryPath:pathToExecuteCommandFrom];
+    
+    NSString *argumentString = [NSString stringWithFormat:@"%@ \"%@\" %@ \"%@\" \"%@\"", COMMAND_LAUNCH_ARG, commandLauncherPath, COMMAND_BRIDGE_ARG, commandClientPath, self.opGGCommandArgument];
+
+    replayLaunchTask.arguments = [NSArray arrayWithObjects:@"-c", argumentString, nil];
+
+    [replayLaunchTask launch];
 }
 
 #pragma mark - String parsing for OPGGKey, SummonerID and Region
@@ -134,6 +167,8 @@ static NSString * const SRTableViewSummonerColumnIdentifier = @"summonerColumn";
             
             NSArray *components = [whiteSpaceStripped componentsSeparatedByString:@" \""];
             NSString *cleanedString = [components.lastObject stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"\""]];
+            
+            self.opGGCommandArgument = cleanedString;
             
             [matchInfo setValue:[self uniqueOPGGKeyFromLine:cleanedString] forKey:SROPGGUniqueKey];
             [matchInfo setValue:[self summonerIDFromLine:cleanedString] forKey:SRSummonerIDKey];
@@ -166,7 +201,7 @@ static NSString * const SRTableViewSummonerColumnIdentifier = @"summonerColumn";
 }
 
 - (NSString *)uniqueOPGGKeyFromLine:(NSString *)line {
-    // line = spectator 20000.f.spectator.op.gg:80 D/xe0rQDLwXEsYsRbSiq0jHyM4gCxy3o 1827637831 NA1"
+    // line = spectator 20000.f.spectator.op.gg:80 D/xe0rQDLwXEsYsRbSiq0jHyM4gCxy3o 1827637831 NA1
     NSArray *components = [line componentsSeparatedByString:@" "];
     
     return components[2];
@@ -279,7 +314,9 @@ static NSString * const SRTableViewSummonerColumnIdentifier = @"summonerColumn";
         SRReplayVideo *selectedVideo = self.locatedFiles[selectedCell];
         
         self.fileLocationLabel.stringValue = selectedVideo.replayName;
+        self.launchReplayBtn.enabled = YES;
         
+        [self updateMatchDetailsViewForSelectedReplayVideo:selectedVideo];
     }
 }
 
@@ -287,5 +324,10 @@ static NSString * const SRTableViewSummonerColumnIdentifier = @"summonerColumn";
     return YES;
 }
 
+#pragma mark - NSCollectionView
+
+- (void)updateMatchDetailsViewForSelectedReplayVideo:(SRReplayVideo *)replayVideo{
+    
+}
 
 @end

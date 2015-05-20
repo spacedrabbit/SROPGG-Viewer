@@ -16,6 +16,7 @@
                 <outlet property="fileBrowserWindow" destination="EiT-Mj-1SZ" id="XHU-Ec-BF6"/>
                 <outlet property="fileListTableView" destination="lXa-bS-U6s" id="vK6-8u-HhP"/>
                 <outlet property="fileLocationLabel" destination="hh0-jR-u6P" id="hi1-wt-McD"/>
+                <outlet property="launchReplayBtn" destination="MD3-cl-9Hi" id="76h-4T-lRs"/>
                 <outlet property="openFileBtn" destination="7uc-3S-IuF" id="wen-ht-3wc"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="gIp-Ho-8D9"/>
             </connections>
@@ -711,7 +712,7 @@
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="s9E-ZY-agP" viewBased="YES" id="lXa-bS-U6s">
-                                    <rect key="frame" x="0.0" y="0.0" width="238" height="117"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="302" height="0.0"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <size key="intercellSpacing" width="3" height="2"/>
                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -800,20 +801,37 @@
                             <autoresizingMask key="autoresizingMask"/>
                         </tableHeaderView>
                     </scrollView>
+                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="MD3-cl-9Hi">
+                        <rect key="frame" x="344" y="18" width="116" height="25"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="22" id="coD-px-vhq"/>
+                        </constraints>
+                        <buttonCell key="cell" type="squareTextured" title="Launch Replay" bezelStyle="texturedSquare" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="VkG-eH-vmQ">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="launchReplayBtn:" target="Voe-Tx-rLC" id="83v-7k-PTI"/>
+                        </connections>
+                    </button>
                 </subviews>
                 <constraints>
                     <constraint firstItem="lmG-oj-gX9" firstAttribute="trailing" secondItem="hh0-jR-u6P" secondAttribute="trailing" id="1SO-Tt-Zw2"/>
                     <constraint firstItem="hh0-jR-u6P" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" id="61Q-L2-IBe"/>
                     <constraint firstItem="7uc-3S-IuF" firstAttribute="leading" secondItem="hh0-jR-u6P" secondAttribute="trailing" constant="23" id="AQD-Yu-sKW"/>
+                    <constraint firstAttribute="bottom" secondItem="MD3-cl-9Hi" secondAttribute="bottom" constant="20" id="UwI-Ou-ZJs"/>
                     <constraint firstItem="lmG-oj-gX9" firstAttribute="top" secondItem="hh0-jR-u6P" secondAttribute="bottom" constant="8" id="VWC-gp-62u"/>
                     <constraint firstAttribute="trailing" secondItem="7uc-3S-IuF" secondAttribute="trailing" constant="20" id="W1d-XY-WHb"/>
                     <constraint firstItem="hh0-jR-u6P" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="19" id="YIx-W3-6vN"/>
                     <constraint firstAttribute="bottom" secondItem="lmG-oj-gX9" secondAttribute="bottom" constant="20" id="aSh-hY-VHd"/>
                     <constraint firstItem="lmG-oj-gX9" firstAttribute="leading" secondItem="hh0-jR-u6P" secondAttribute="leading" id="eTC-Tm-WDO"/>
+                    <constraint firstItem="MD3-cl-9Hi" firstAttribute="leading" secondItem="lmG-oj-gX9" secondAttribute="trailing" constant="23" id="iat-3K-Ota"/>
                     <constraint firstItem="7uc-3S-IuF" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="19" id="sfd-ni-hmL"/>
+                    <constraint firstItem="7uc-3S-IuF" firstAttribute="width" secondItem="MD3-cl-9Hi" secondAttribute="width" id="xHc-9m-3gB"/>
                 </constraints>
             </view>
             <point key="canvasLocation" x="319" y="302"/>
         </window>
+        <userDefaultsController representsSharedInstance="YES" id="sAG-Iz-atq"/>
     </objects>
 </document>
