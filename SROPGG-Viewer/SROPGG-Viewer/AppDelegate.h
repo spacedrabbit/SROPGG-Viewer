@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface AppDelegate : NSObject <NSApplicationDelegate, NSOpenSavePanelDelegate>
+@interface AppDelegate : NSObject <NSApplicationDelegate, NSOpenSavePanelDelegate, NSTableViewDataSource, NSTableViewDelegate>
 
 
 @end

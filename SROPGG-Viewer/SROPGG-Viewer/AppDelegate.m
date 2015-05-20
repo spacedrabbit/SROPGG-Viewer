@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "SRReplayVideo.h"
 
 // LoL.app specific bundle locations
 static NSString * const CLIENT_PATH = @"/Applications/League of Legends.app/Contents/LoL/RADS/projects/lol_air_client/releases/";
@@ -23,6 +24,11 @@ static NSString * const SRSummonerIDKey = @"summonerIDKey";
 static NSString * const SROPGGUniqueKey = @"opggUniqueKey";
 static NSString * const SRLoLRegionKey = @"regionKey";
 
+static NSString * const SRTableViewCellIdentifier = @"tableCell";
+static NSString * const SRTableViewCellSummonerIdentifier = @"tableCellSummoner";
+static NSString * const SRTableViewNameColumnIdentifier = @"nameColumn";
+static NSString * const SRTableViewSummonerColumnIdentifier = @"summonerColumn";
+
 @interface AppDelegate ()
 
 // UI Outlets
@@ -30,6 +36,7 @@ static NSString * const SRLoLRegionKey = @"regionKey";
 @property (weak) IBOutlet NSView *fileBrowserWindow;
 @property (weak) IBOutlet NSButton *openFileBtn;
 @property (weak) IBOutlet NSTextField *fileLocationLabel;
+@property (weak) IBOutlet NSTableView *fileListTableView;
 
 // NSOpenPanel
 @property (strong, nonatomic) NSOpenPanel *sharedOpenPanel;
@@ -41,14 +48,26 @@ static NSString * const SRLoLRegionKey = @"regionKey";
 @property (strong, nonatomic) NSURL * clientAppURL;
 @property (strong, nonatomic) NSURL * launcherAppURL;
 
+@property (strong, nonatomic) NSMutableArray *locatedFiles;
+
 // IBActions
 - (IBAction)openFileBroser:(NSButton *)sender;
 
 @end
 
+
+
 @implementation AppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+    
+    // TODO: Have column expand to fit the text
+    self.fileListTableView.delegate = self;
+    self.fileListTableView.dataSource = self;
+    self.fileListTableView.columnAutoresizingStyle = NSTableViewFirstColumnOnlyAutoresizingStyle;
+    self.fileListTableView.allowsColumnSelection = NO;
+    self.fileListTableView.allowsColumnResizing = YES;
+    self.locatedFiles = [[NSMutableArray alloc] init];
     
     self.sharedOpenPanel = [NSOpenPanel openPanel];
     self.sharedOpenPanel.delegate = self;
@@ -77,9 +96,7 @@ static NSString * const SRLoLRegionKey = @"regionKey";
         
         if (result == NSFileHandlingPanelOKButton) {
             NSArray *selectedDocuments = [self.sharedOpenPanel URLs];
-            
             [self parseOPGGDataFromFiles:selectedDocuments];
-            
         }
         
     }];
@@ -87,7 +104,7 @@ static NSString * const SRLoLRegionKey = @"regionKey";
 }
 
 #pragma mark - Running LoL Client with OP.GG files
-
+// TODO: Implement the launching of the replay
 - (void)launchReplayForFile:(NSURL *)filePath{
     
     NSFileManager *defaultManager = [NSFileManager defaultManager];
@@ -136,8 +153,15 @@ static NSString * const SRLoLRegionKey = @"regionKey";
         NSString *fileName = fileURL.lastPathComponent;
         [self matchReplayInfoFromFile:fileURL completion:^(NSDictionary *matchInfo) {
             
+            NSString *uniqueKey = [matchInfo valueForKey:SROPGGUniqueKey];
+            NSString *summonerID = [matchInfo valueForKey:SRSummonerIDKey];
+            NSString *regionID = [matchInfo valueForKey:SRLoLRegionKey];
+            
+            SRReplayVideo *replayVideo = [[SRReplayVideo alloc] initReplayVideoWithName:fileName replayID:uniqueKey forSummonerID:summonerID inRegion:regionID];
+            [self.locatedFiles addObject:replayVideo];
+           
+            [self.fileListTableView reloadData];
         }];
-        
     }
 }
 
@@ -217,6 +241,51 @@ static NSString * const SRLoLRegionKey = @"regionKey";
     return NO;
 }
 
+#pragma mark - NSTableViewDelegate/DataSource
+
+-(NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{
+    return self.locatedFiles ? self.locatedFiles.count : 0;
+}
+
+-(NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
+    
+    NSTableCellView *cell = [tableView makeViewWithIdentifier:SRTableViewCellIdentifier owner:self];
+    
+    if (self.locatedFiles.count > 0) {
+        
+        SRReplayVideo *replayVideo = (SRReplayVideo *)self.locatedFiles[row];
+        
+        if ([tableColumn.identifier isEqualToString:SRTableViewNameColumnIdentifier]) {
+            cell.textField.stringValue = replayVideo.replayName;
+            tableColumn.title = @"Replay Name";
+        }
+        
+        if ([tableColumn.identifier isEqualToString:SRTableViewSummonerColumnIdentifier]) {
+            cell.textField.stringValue = replayVideo.replaySummoner;
+            tableColumn.title = @"Summoner ID";
+        }
+        
+    }else{
+        cell.textField.stringValue = @"Nothing found";
+    }
+    
+    return cell;
+}
+
+-(void)tableViewSelectionDidChange:(NSNotification *)notification{
+    
+    if ([notification.name isEqualToString:NSTableViewSelectionDidChangeNotification]) {
+        NSInteger selectedCell = self.fileListTableView.selectedRow;
+        SRReplayVideo *selectedVideo = self.locatedFiles[selectedCell];
+        
+        self.fileLocationLabel.stringValue = selectedVideo.replayName;
+        
+    }
+}
+
+-(BOOL)tableView:(NSTableView *)tableView shouldShowCellExpansionForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
+    return YES;
+}
 
 
 @end

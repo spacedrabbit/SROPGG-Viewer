@@ -12,6 +12,7 @@
 		142016731B0AC4B50088D441 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 142016721B0AC4B50088D441 /* Images.xcassets */; };
 		142016761B0AC4B50088D441 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 142016741B0AC4B50088D441 /* MainMenu.xib */; };
 		142016821B0AC4B50088D441 /* SROPGG_ViewerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 142016811B0AC4B50088D441 /* SROPGG_ViewerTests.m */; };
+		144088A51B0C4F460011C706 /* SRReplayVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = 144088A41B0C4F460011C706 /* SRReplayVideo.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,6 +36,8 @@
 		1420167B1B0AC4B50088D441 /* SROPGG-ViewerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "SROPGG-ViewerTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		142016801B0AC4B50088D441 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		142016811B0AC4B50088D441 /* SROPGG_ViewerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SROPGG_ViewerTests.m; sourceTree = "<group>"; };
+		144088A31B0C4F460011C706 /* SRReplayVideo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SRReplayVideo.h; path = ../SRReplayVideo.h; sourceTree = "<group>"; };
+		144088A41B0C4F460011C706 /* SRReplayVideo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SRReplayVideo.m; path = ../SRReplayVideo.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,6 +79,8 @@
 		1420166A1B0AC4B50088D441 /* SROPGG-Viewer */ = {
 			isa = PBXGroup;
 			children = (
+				144088A31B0C4F460011C706 /* SRReplayVideo.h */,
+				144088A41B0C4F460011C706 /* SRReplayVideo.m */,
 				1420166D1B0AC4B50088D441 /* AppDelegate.h */,
 				1420166E1B0AC4B50088D441 /* AppDelegate.m */,
 				142016721B0AC4B50088D441 /* Images.xcassets */,
@@ -210,6 +215,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				144088A51B0C4F460011C706 /* SRReplayVideo.m in Sources */,
 				142016711B0AC4B50088D441 /* main.m in Sources */,
 				1420166F1B0AC4B50088D441 /* AppDelegate.m in Sources */,
 			);
@@ -401,6 +407,7 @@
 				142016871B0AC4B50088D441 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		142016881B0AC4B50088D441 /* Build configuration list for PBXNativeTarget "SROPGG-ViewerTests" */ = {
 			isa = XCConfigurationList;
@@ -409,6 +416,7 @@
 				1420168A1B0AC4B50088D441 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
