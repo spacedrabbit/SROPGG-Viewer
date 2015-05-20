@@ -122,6 +122,7 @@ static NSString * const SRTableViewSummonerColumnIdentifier = @"summonerColumn";
 
 }
 
+// TODO: Launch replay based on selected file
 - (IBAction)launchReplayBtn:(NSButton *)sender {
     [self launchReplayForFile:nil];
 }
@@ -326,6 +327,7 @@ static NSString * const SRTableViewSummonerColumnIdentifier = @"summonerColumn";
 
 #pragma mark - NSCollectionView
 
+// TODO: Integrate RIOT API to pull info for each replay based on summonerID
 - (void)updateMatchDetailsViewForSelectedReplayVideo:(SRReplayVideo *)replayVideo{
     
 }
