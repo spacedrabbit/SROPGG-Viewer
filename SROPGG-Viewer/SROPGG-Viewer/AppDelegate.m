@@ -8,31 +8,40 @@
 
 #import "AppDelegate.h"
 
+// LoL.app specific bundle locations
 static NSString * const CLIENT_PATH = @"/Applications/League of Legends.app/Contents/LoL/RADS/projects/lol_air_client/releases/";
 static NSString * const CLIENT_PATH_END = @"/deploy/bin/LolClient";
 static NSString * const LAUNCHER_PATH = @"/Applications/League of Legends.app/Contents/LoL/RADS/solutions/lol_game_client_sln/releases/";
 static NSString * const LAUNCHER_PATH_END  = @"/deploy/LeagueOfLegends.app/Contents/MacOS/LeagueofLegends";
 
+// Used in forming the command from the OP.GG file
 static NSString * const COMMAND_BRIDGE_ARG = @"8394 LoLLauncher";
 static NSString * const COMMAND_LAUNCH_ARG = @"riot_launched=true";
-
 static NSString * const OP_GG_ARG = @"spectator 20000.f.spectator.op.gg:80";
+
+static NSString * const SRSummonerIDKey = @"summonerIDKey";
+static NSString * const SROPGGUniqueKey = @"opggUniqueKey";
+static NSString * const SRLoLRegionKey = @"regionKey";
 
 @interface AppDelegate ()
 
+// UI Outlets
 @property (weak) IBOutlet NSWindow *window;
 @property (weak) IBOutlet NSView *fileBrowserWindow;
 @property (weak) IBOutlet NSButton *openFileBtn;
 @property (weak) IBOutlet NSTextField *fileLocationLabel;
 
+// NSOpenPanel
 @property (strong, nonatomic) NSOpenPanel *sharedOpenPanel;
 
+// Instance Variables for file location
 @property (strong, nonatomic) NSString * clientVersion;
 @property (strong, nonatomic) NSString * launcherVersion;
 
 @property (strong, nonatomic) NSURL * clientAppURL;
 @property (strong, nonatomic) NSURL * launcherAppURL;
 
+// IBActions
 - (IBAction)openFileBroser:(NSButton *)sender;
 
 @end
@@ -52,8 +61,6 @@ static NSString * const OP_GG_ARG = @"spectator 20000.f.spectator.op.gg:80";
     if (clientAndLauncherLocated) {
         NSString *versionTitle = [NSString stringWithFormat:@"Client ver. %@ ---- Launcher ver. %@", self.clientVersion, self.launcherVersion];
         self.window.title = versionTitle;
-        
-        [self launchReplayForFile:nil];
     }
     
 }
@@ -62,30 +69,21 @@ static NSString * const OP_GG_ARG = @"spectator 20000.f.spectator.op.gg:80";
     // Insert code here to tear down your application
 }
 
+#pragma mark - Opening File Browser and Selecting Files
+
 - (IBAction)openFileBroser:(NSButton *)sender {
     
     [self.sharedOpenPanel beginWithCompletionHandler:^(NSInteger result) {
         
         if (result == NSFileHandlingPanelOKButton) {
             NSArray *selectedDocuments = [self.sharedOpenPanel URLs];
+            
             [self parseOPGGDataFromFiles:selectedDocuments];
             
         }
         
     }];
 
-}
-
-- (void)parseOPGGDataFromFiles:(NSArray *)fileURLs{
-    
-    for (NSURL *fileURL in fileURLs) {
-        
-        NSString *fileName = fileURL.lastPathComponent;
-        [self matchReplayInfoFromFile:fileURL completion:^(NSDictionary *matchInfo) {
-            
-        }];
-        
-    }
 }
 
 #pragma mark - Running LoL Client with OP.GG files
@@ -100,10 +98,15 @@ static NSString * const OP_GG_ARG = @"spectator 20000.f.spectator.op.gg:80";
     
 }
 
+#pragma mark - String parsing for OPGGKey, SummonerID and Region
+
+// returns data needed to send request to riot API
 - (void)matchReplayInfoFromFile:(NSURL *)fileURL completion:(void(^)(NSDictionary * matchInfo))completion {
     
-    NSString *fileContents = [NSString stringWithContentsOfURL:fileURL encoding:NSUTF8StringEncoding error:nil];
     __block NSMutableDictionary *matchInfo = [[NSMutableDictionary alloc] init];
+    NSString *fileContents = [NSString stringWithContentsOfURL:fileURL
+                                                      encoding:NSUTF8StringEncoding
+                                                         error:nil];
     
     [fileContents enumerateLinesUsingBlock:^(NSString *line, BOOL *stop) {
         
@@ -111,32 +114,51 @@ static NSString * const OP_GG_ARG = @"spectator 20000.f.spectator.op.gg:80";
         
         // this effectively finds the last line in the file
         if([whiteSpaceStripped hasPrefix:COMMAND_LAUNCH_ARG]){
-            NSArray *components = [whiteSpaceStripped componentsSeparatedByString:@" \""];
             
-            [matchInfo setValue:[self uniqueOPGGKeyFromLine:components.lastObject] forKey:@"uniqueKey"];
-            [matchInfo setValue:[self summonerIDFromLine:components.lastObject] forKey:@"summonerID"];
-            [matchInfo setValue:[self regionInformationFromLine:components.lastObject] forKey:@"region"];
+            NSArray *components = [whiteSpaceStripped componentsSeparatedByString:@" \""];
+            NSString *cleanedString = [components.lastObject stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"\""]];
+            
+            [matchInfo setValue:[self uniqueOPGGKeyFromLine:cleanedString] forKey:SROPGGUniqueKey];
+            [matchInfo setValue:[self summonerIDFromLine:cleanedString] forKey:SRSummonerIDKey];
+            [matchInfo setValue:[self regionInformationFromLine:cleanedString] forKey:SRLoLRegionKey];
+            
+            completion(matchInfo);
         }
         
     }];
     
 }
 
-// TODO: Write out these methods to return appropriate strings
+- (void)parseOPGGDataFromFiles:(NSArray *)fileURLs{
+    
+    for (NSURL *fileURL in fileURLs) {
+        
+        NSString *fileName = fileURL.lastPathComponent;
+        [self matchReplayInfoFromFile:fileURL completion:^(NSDictionary *matchInfo) {
+            
+        }];
+        
+    }
+}
+
 - (NSString *)uniqueOPGGKeyFromLine:(NSString *)line {
     // line = spectator 20000.f.spectator.op.gg:80 D/xe0rQDLwXEsYsRbSiq0jHyM4gCxy3o 1827637831 NA1"
+    NSArray *components = [line componentsSeparatedByString:@" "];
     
-    return nil;
+    return components[2];
 }
 
 - (NSString *)summonerIDFromLine:(NSString *)line {
+    NSArray *components = [line componentsSeparatedByString:@" "];
     
-    return nil;
+    return components[3];
 }
 
 - (NSString *)regionInformationFromLine:(NSString *)line{
+    NSArray *components = [line componentsSeparatedByString:@" "];
+    NSString *region = [[components lastObject] stringByTrimmingCharactersInSet:[NSCharacterSet decimalDigitCharacterSet]];
     
-    return nil;
+    return region;
 }
 
 #pragma mark - Locating LoL Client Directories
